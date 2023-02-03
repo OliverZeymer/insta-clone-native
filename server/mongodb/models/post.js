@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-const Post = new mongoose.Schema({
+const PostSchema = new mongoose.Schema({
   photo: { type: String, required: true },
   description: { type: String, required: true },
   user: { type: String, required: true },
@@ -8,6 +8,6 @@ const Post = new mongoose.Schema({
   comments: { type: Array, default: [] },
 })
 
-const PostSchema = mongoose.model("Post", Post)
+const Post = mongoose.model("Post", PostSchema)
 
-export default PostSchema
+export default Post
