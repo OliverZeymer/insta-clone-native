@@ -5,6 +5,7 @@ import LoginScreen from "./views/LoginScreen"
 
 import { useEffect, useState } from "react"
 import checkToken from "./functions/checkToken"
+import RegisterScreen from "./views/RegisterScreen"
 const Stack = createNativeStackNavigator()
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -21,7 +22,14 @@ export default function App() {
           },
           headerTintColor: "#fff",
         }}>
-        {!isLoggedIn ? <Stack.Screen name="Login" component={LoginScreen} /> : <Stack.Screen name="Home" component={HomeScreen} />}
+        {!isLoggedIn ? (
+          <>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} />
+          </>
+        ) : (
+          <Stack.Screen name="Home" component={HomeScreen} />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   )

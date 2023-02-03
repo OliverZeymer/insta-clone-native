@@ -1,19 +1,19 @@
 import { useState } from "react"
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native"
 import Icon from "react-native-vector-icons/Feather"
-import useLogin from "../hooks/useLogin"
-export default function HomeScreen({ navigation }) {
+import useCreateUser from "../hooks/useCreateUser"
+export default function RegisterScreen({ navigation }) {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const { handleLogin, errorMessage, isLoading } = useLogin()
+  const { handleCreateUser, errorMessage, isLoading } = useCreateUser()
   return (
     <ScrollView className="bg-black p-4">
       <View>
-        <Text className="text-7xl font-bold tracking-tight text-light">Log in</Text>
-        <Text className="text-2xl font-bold text-light mb-6">Log in here!</Text>
-        <View>
+        <Text className="text-7xl font-bold tracking-tight text-light">Register</Text>
+        <Text className="text-2xl font-bold text-light">Create your account here!</Text>
+        <View className="flex-1 gap-y-1">
           <View className="flex-row gap-4">
-            <View className="flex-1 mt-8 mb-4 relative">
+            <View className="flex-1 relative">
               <TextInput className="rounded-full text-light bg-dark py-2.5 px-4 shadow-xl" onChangeText={setUsername} placeholder="Username" />
               <Icon
                 name="user"
@@ -29,7 +29,7 @@ export default function HomeScreen({ navigation }) {
           </View>
           <View className="flex-row gap-4">
             <View className="flex-1 relative">
-              <TextInput className="rounded-full text-light bg-dark py-2.5 px-4 shadow-xl mb-4" onChangeText={setPassword} placeholder="Password" />
+              <TextInput className="rounded-full text-light bg-dark py-2.5 px-4 shadow-xl" secureTextEntry={true} onChangeText={setPassword} placeholder="Password" />
               <Icon
                 name="lock"
                 size={24}
@@ -42,7 +42,7 @@ export default function HomeScreen({ navigation }) {
               />
             </View>
           </View>
-          <Pressable className="bg-dark rounded-full py-2.5 px-4 shadow-xl" onPress={() => handleLogin(username, password)}>
+          <Pressable className="bg-dark rounded-full py-2.5 px-4 shadow-xl" onPress={() => handleCreateUser(username, password)}>
             <Text className="text-2xl font-bold text-light text-center">Log in</Text>
             <Icon
               name="log-in"
@@ -56,13 +56,13 @@ export default function HomeScreen({ navigation }) {
             />
           </Pressable>
         </View>
-        <Text className="mb-4 text-2xl mt-8 font-bold text-light">Not signed up yet?</Text>
+        <Text className="mb-4 text-2xl mt-8 font-bold text-light">Already have an account?</Text>
         <Pressable
-          className="bg-dark rounded-full py-2.5 px-4 shadow-xl self-start"
+          className="bg-dark rounded-full py-2.5 px-6 shadow-xl self-start"
           onPress={() => {
-            navigation.navigate("Register")
+            navigation.navigate("Login")
           }}>
-          <Text className="text-2xl font-bold text-light">Create an account</Text>
+          <Text className="text-2xl font-bold text-light">Log in</Text>
         </Pressable>
       </View>
     </ScrollView>
