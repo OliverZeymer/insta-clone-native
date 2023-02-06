@@ -29,7 +29,7 @@ export default function HomeScreen({ navigation }) {
           </View>
           <View className="flex-row gap-4">
             <View className="flex-1 relative">
-              <TextInput className="rounded-full text-light bg-dark py-2.5 px-4 shadow-xl mb-4" onChangeText={setPassword} placeholder="Password" />
+              <TextInput className="rounded-full text-light bg-dark py-2.5 px-4 shadow-xl mb-4" onChangeText={setPassword} secureTextEntry placeholder="Password" />
               <Icon
                 name="lock"
                 size={24}
@@ -42,8 +42,12 @@ export default function HomeScreen({ navigation }) {
               />
             </View>
           </View>
-          <Pressable className="bg-dark rounded-full py-2.5 px-4 shadow-xl" onPress={() => handleLogin(username, password)}>
-            <Text className="text-2xl font-bold text-light text-center">Log in</Text>
+          <Pressable
+            className="bg-dark rounded-full py-2.5 px-4 shadow-xl"
+            onPress={() => {
+              handleLogin(username, password)
+            }}>
+            <Text className="text-2xl font-bold text-light text-center">{isLoading ? "Loading..." : "Log in"}</Text>
             <Icon
               name="log-in"
               size={24}
@@ -55,6 +59,7 @@ export default function HomeScreen({ navigation }) {
               }}
             />
           </Pressable>
+          <Text className="text-2xl font-bold text-light text-center">{errorMessage}</Text>
         </View>
         <Text className="mb-4 text-2xl mt-8 font-bold text-light">Not signed up yet?</Text>
         <Pressable

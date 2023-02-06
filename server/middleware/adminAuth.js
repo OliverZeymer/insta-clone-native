@@ -3,8 +3,8 @@ dotenv.config()
 export default function adminAuth() {
   return async (req, res, next) => {
     if (!req.headers.authorization) {
-      response.status(401)
-      response.end()
+      res.status(401)
+      res.end()
       return
     }
 

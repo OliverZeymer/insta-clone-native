@@ -1,9 +1,12 @@
 import { AsyncStorage } from "react-native"
-export default async function checkToken({ isLoggedIn, setIsLoggedIn }) {
+import isAuthenticatedContext from "../contexts/isAuthenticatedContext"
+import { useContext } from "react"
+export default async function checkToken() {
+  const { setIsAuthenticated } = useContext(isAuthenticatedContext)
   try {
     const token = await AsyncStorage.getItem("token")
     if (token !== null) {
-      setIsLoggedIn(true)
+      setIsAuthenticated(true)
     }
   } catch (error) {
     console.log(error)

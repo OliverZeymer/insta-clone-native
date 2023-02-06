@@ -1,6 +1,9 @@
-import { Pressable, ScrollView, Text, TextInput, View } from "react-native"
+import { useContext } from "react"
+import { Pressable, ScrollView, Text, TextInput, View, AsyncStorage } from "react-native"
 import Icon from "react-native-vector-icons/Feather"
+import IsAuthenticatedContext from "../contexts/isAuthenticatedContext"
 export default function HomeScreen({ navigation }) {
+  const { setIsAuthenticated } = useContext(IsAuthenticatedContext)
   return (
     <ScrollView className="bg-black p-4">
       <View className="">
@@ -22,6 +25,24 @@ export default function HomeScreen({ navigation }) {
           </View>
         </View>
         <Text className="mb-8 text-4xl font-bold text-light">Feed</Text>
+        <Pressable
+          className="bg-dark rounded-full py-2.5 px-4 shadow-xl"
+          onPress={() => {
+            AsyncStorage.removeItem("token")
+            setIsAuthenticated(false)
+          }}>
+          <Text className="text-2xl font-bold text-light text-center">Log out</Text>
+          <Icon
+            name="log-out"
+            size={24}
+            color="#f8f8f8"
+            style={{
+              position: "absolute",
+              right: 12,
+              top: 13,
+            }}
+          />
+        </Pressable>
       </View>
     </ScrollView>
   )
