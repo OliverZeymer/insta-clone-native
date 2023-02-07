@@ -15,7 +15,7 @@ export default function HomeScreen({ navigation }) {
         <View>
           <View className="flex-row gap-4">
             <View className="flex-1 mt-8 mb-4 relative">
-              <TextInput className="rounded-full text-light bg-dark py-2.5 px-4 shadow-xl" onChangeText={setUsername} placeholder="Username" />
+              <TextInput placeholderTextColor="#f1f1f1" className="rounded-full text-light bg-dark py-2.5 px-4 shadow-xl" onChangeText={setUsername} placeholder="Username" />
               <Icon
                 name="user"
                 size={24}
@@ -30,7 +30,13 @@ export default function HomeScreen({ navigation }) {
           </View>
           <View className="flex-row gap-4">
             <View className="flex-1 relative">
-              <TextInput className="rounded-full text-light bg-dark py-2.5 px-4 shadow-xl mb-4" onChangeText={setPassword} secureTextEntry placeholder="Password" />
+              <TextInput
+                placeholderTextColor="#f1f1f1"
+                className="rounded-full text-light bg-dark py-2.5 px-4 shadow-xl mb-4"
+                onChangeText={setPassword}
+                secureTextEntry
+                placeholder="Password"
+              />
               <Icon
                 name="lock"
                 size={24}

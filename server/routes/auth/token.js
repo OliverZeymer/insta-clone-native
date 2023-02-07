@@ -6,7 +6,6 @@ import dotenv from "dotenv"
 dotenv.config()
 export default function token(req, res) {
   const { username, password } = req.body
-
   User.findOne({ username }, (error, user) => {
     if (error) {
       return res.status(400).send({ error })
