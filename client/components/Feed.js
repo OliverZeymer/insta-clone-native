@@ -1,9 +1,21 @@
-import { ActivityIndicator, FlatList, Image, Text, View } from "react-native"
+import { ActivityIndicator, FlatList, Text, RefreshControl } from "react-native"
 import useAxios from "../hooks/useAxios"
-import Icon from "react-native-vector-icons/Feather"
-import shortenNumber from "../functions/shortenNumber"
-const Feed = () => {
-  const { data, error, loading } = useAxios("http://10.160.213.42:8080/api/v1/posts")
+
+import { useState } from "react"
+import Post from "./Post"
+import GreetingMessage from "./GreetingMessage"
+import LogOutButton from "./LogOutButton"
+const Feed = ({ profileData }) => {
+  const { data, error, loading, refresh } = useAxios("http://10.160.213.42:8080/api/v1/posts")
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const handleRefresh = () => {
+    setIsRefreshing(true)
+    refresh()
+    setTimeout(() => {
+      setIsRefreshing(false)
+    }, 2000)
+  }
+
   return (
     <>
       {loading && <ActivityIndicator size="large" />}
@@ -11,29 +23,13 @@ const Feed = () => {
       {data && (
         <FlatList
           data={data}
+          refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item._id}
-          renderItem={({ item }) => (
-            <View className="rounded-2xl bg-dark p-4 mb-14">
-              <Image
-                source={{ uri: item.photo }}
-                resizeMethod="cover"
-                resizeMode="cover"
-                className="
-                rounded-2xl
-                w-full
-                aspect-square
-                mb-4"
-              />
-              <View className="flex-row gap-6">
-                <Icon name="heart" size={24} color="#f8f8f8" />
-
-                <Icon name="message-circle" size={24} color="#f8f8f8" />
-                <Icon name="share" size={24} color="#f8f8f8" />
-              </View>
-              <Text className="text-white my-2">{shortenNumber(item.likes.length)} Likes</Text>
-              <Text className="text-white text-lg">{item.description}</Text>
-            </View>
-          )}
+          renderItem={({ item }) => <Post key={item._id} item={item} />}
+          ListHeaderComponent={<GreetingMessage data={profileData} />}
+          ListFooterComponent={<LogOutButton />}
         />
       )}
     </>

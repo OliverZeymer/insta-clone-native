@@ -1,16 +1,27 @@
-import { useState } from "react"
-import { Pressable, ScrollView, Text, TextInput, View, Image } from "react-native"
+import { Pressable, ScrollView, Text, TextInput, View, Image, AsyncStorage } from "react-native"
 import Icon from "react-native-vector-icons/Feather"
 import useLogin from "../hooks/useLogin"
 import Logo from "../assets/logo.png"
+import { useEffect, useContext, useState } from "react"
+import IsAuthenticatedContext from "../contexts/isAuthenticatedContext"
 
 export default function HomeScreen({ navigation }) {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const { handleLogin, errorMessage, isLoading } = useLogin()
+  const { isAuthenticated, setIsAuthenticated } = useContext(IsAuthenticatedContext)
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem("token")
+      if (token) {
+        setIsAuthenticated(true)
+      }
+    }
+    checkToken()
+  }, [])
   return (
-    <ScrollView className="bg-black p-4" contentContainerStyle={{ justifyContent: "center", height: "100%" }}>
-      <View className="">
+    <ScrollView className="bg-black" contentContainerStyle={{ justifyContent: "center", height: "100%" }}>
+      <View className="p-4 flex-1">
         <View className="flex-row justify-center gap-2">
           <Image style={{ height: 40, width: 40 }} source={Logo} />
           <Text
