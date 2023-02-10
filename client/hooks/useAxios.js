@@ -2,7 +2,7 @@ import axios from "axios"
 import { useState, useEffect } from "react"
 import { AsyncStorage } from "react-native"
 
-const useAxios = (url, method = "get") => {
+const useAxios = (url, method = "get", dependencies) => {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -27,7 +27,7 @@ const useAxios = (url, method = "get") => {
       }
     }
     fetchData()
-  }, [url, method])
+  }, [url, method, dependencies])
 
   const refresh = async () => {
     setLoading(true)

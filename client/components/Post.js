@@ -1,13 +1,29 @@
 import Icon from "react-native-vector-icons/Feather"
 import shortenNumber from "../functions/shortenNumber"
-import { ActivityIndicator, Image, Pressable, Text, View, Animated, Easing } from "react-native"
+import { ActivityIndicator, Image, Pressable, Text, View, Animated, Easing, Alert, AsyncStorage } from "react-native"
 import { useEffect, useState } from "react"
-export default function Post({ item }) {
+import axios from "axios"
+export default function Post({ item, refresh }) {
   const [scaleValue] = useState(new Animated.Value(0))
   const [liked, setLiked] = useState(false)
   const [imageIsLoaded, setImageIsLoaded] = useState(false)
   const [firstTap, setFirstTap] = useState(null)
   const [showHeartAnimation, setShowHeartAnimation] = useState(false)
+  const handleDelete = async (item) => {
+    try {
+      axios
+        .delete("http://10.160.213.42:8080/api/v1/posts/" + item._id, {
+          headers: {
+            authorization: `Bearer ${await AsyncStorage.getItem("token")}`,
+          },
+        })
+        .then(() => {
+          refresh()
+        })
+    } catch (error) {
+      console.error(error)
+    }
+  }
   const scaleHeart = () => {
     scaleValue.setValue(0)
     Animated.timing(scaleValue, {
@@ -78,7 +94,13 @@ export default function Post({ item }) {
             }}
           />
         )}
-        <Image onLoad={() => setImageIsLoaded(true)} source={{ uri: item.photo }} resizeMethod="cover" resizeMode="cover" className="rounded-t-2xl w-full aspect-square mb-2" />
+        <Image
+          onLoad={() => setImageIsLoaded(true)}
+          source={{ uri: "http://10.160.213.42:8080/" + item.filename }}
+          resizeMethod="cover"
+          resizeMode="cover"
+          className="rounded-t-2xl w-full aspect-square mb-2"
+        />
         <View className="px-4">
           <View className="flex-row gap-4">
             <Pressable
@@ -89,10 +111,26 @@ export default function Post({ item }) {
             </Pressable>
             <Icon name="message-circle" size={28} color="#f8f8f8" />
             <Icon name="share" size={28} color="#f8f8f8" />
+            <Pressable
+              onPress={() => {
+                Alert.alert("Delete Post", "Are you sure you want to delete this post?", [
+                  {
+                    text: "Cancel",
+                  },
+                  {
+                    text: "Delete",
+                    onPress: () => {
+                      handleDelete(item)
+                    },
+                  },
+                ])
+              }}>
+              <Icon name="trash" size={28} color="#f8f8f8" />
+            </Pressable>
           </View>
-          <Text className="text-white my-2">
+          <Text className="text-white my-2 font-semibold">
             {shortenNumber(liked ? item.likes.length + 1 : item.likes.length)}
-            {liked ? ` likes` : item.likes.length === 1 ? ` Like` : ` Likes`}
+            {item.likes.length === 1 || (item.likes.length === 0 && liked) ? " Like" : " Likes"}
           </Text>
           <View className="bg-neutral-400 h-[0.5px]" />
           <View className="flex-row mt-2">

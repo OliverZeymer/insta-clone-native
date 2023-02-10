@@ -11,9 +11,7 @@ const Feed = ({ profileData }) => {
   const handleRefresh = () => {
     setIsRefreshing(true)
     refresh()
-    setTimeout(() => {
-      setIsRefreshing(false)
-    }, 2000)
+    setIsRefreshing(false)
   }
 
   return (
@@ -27,7 +25,7 @@ const Feed = ({ profileData }) => {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item._id}
-          renderItem={({ item }) => <Post key={item._id} item={item} />}
+          renderItem={({ item }) => <Post key={item._id} item={item} refresh={refresh} />}
           ListHeaderComponent={<GreetingMessage data={profileData} />}
           ListFooterComponent={<LogOutButton />}
         />

@@ -8,9 +8,9 @@ export default function HomeScreen({ navigation }) {
   const [password, setPassword] = useState("")
   const { handleRegister, errorMessage, isLoading } = useRegister()
   return (
-    <ScrollView className="bg-black p-4">
+    <ScrollView className="bg-black p-4" contentContainerStyle={{ justifyContent: "center", height: "100%" }}>
       <View>
-        <Text className="text-7xl font-bold tracking-tight text-light">Register</Text>
+        <Text className="text-5xl font-bold tracking-tight text-light">Register</Text>
         <Text className="text-2xl font-bold text-light mb-6">Create your account here!</Text>
         <View>
           <View className="flex-row gap-4">

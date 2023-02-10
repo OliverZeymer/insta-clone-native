@@ -13,6 +13,7 @@ export default function getPosts(req, res) {
     })
   } else {
     Post.find({})
+      .sort({ createdAt: -1 })
       .limit(25)
       .exec((err, posts) => {
         if (err) {

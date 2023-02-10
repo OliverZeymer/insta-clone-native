@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { Pressable, ScrollView, Text, TextInput, View, AsyncStorage } from "react-native"
+import { Pressable, View, AsyncStorage, ActivityIndicator } from "react-native"
 import Icon from "react-native-vector-icons/Feather"
 import Feed from "../components/Feed"
 
@@ -15,7 +15,7 @@ export default function HomeScreen({ navigation }) {
     })
   }, [])
   return !loading ? (
-    <View className="bg-black flex p-4 flex-1">
+    <View className="bg-black flex pb-4 pl-4 pr-4 flex-1">
       <Feed profileData={data} />
 
       <Pressable
@@ -27,6 +27,6 @@ export default function HomeScreen({ navigation }) {
       </Pressable>
     </View>
   ) : (
-    <Text className="text-7xl font-bold tracking-tight text-light">Loading...</Text>
+    <ActivityIndicator size="large" color="#f8f8f8" />
   )
 }

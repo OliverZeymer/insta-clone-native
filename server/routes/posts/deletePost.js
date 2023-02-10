@@ -1,13 +1,20 @@
 import Post from "../../mongodb/models/post.js"
-export default function deletePost(req, res) {
+import fs from "fs"
+
+export default async function deletePost(req, res) {
   const { id } = req.params
-  Post.findByIdAndDelete(id, (error, post) => {
-    if (error) {
-      return res.status(500).send({ error })
-    }
-    if (!post) {
-      return res.status(404).send({ error: "post not found" })
-    }
-    res.status(200).send({ message: "Post deleted successfully" })
-  })
+  try {
+    const post = await Post.findById(id)
+
+    // Delete the image from the server's file system
+    fs.unlinkSync(`uploads/${post.filename}`)
+
+    // Remove the post from the database
+    await post.remove()
+
+    res.json({ message: "Post and associated image deleted" })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: "Error deleting post" })
+  }
 }

@@ -21,15 +21,15 @@ export default function HomeScreen({ navigation }) {
   }, [])
   return (
     <ScrollView className="bg-black" contentContainerStyle={{ justifyContent: "center", height: "100%" }}>
-      <View className="p-4 flex-1">
+      <View className="p-4 mb-24">
+        <Image resizeMethod="cover" resizeMode="cover" className="aspect-square w-24 h-24 mx-auto" source={Logo} />
         <View className="flex-row justify-center gap-2">
-          <Image style={{ height: 40, width: 40 }} source={Logo} />
           <Text
             style={{
               fontFamily: "Pacifico-Regular",
             }}
             className="text-4xl py-2 text-center text-light mb-2">
-            Instagram
+            Catstagram
           </Text>
         </View>
         <View>
